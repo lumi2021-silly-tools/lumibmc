@@ -13,10 +13,10 @@ public static class Parsing
 
         using Image<Rgba32> image = Image.Load<Rgba32>(input);
 
-        byte[] pixelBytes = new byte[image.Width * image.Height * 4];
+        byte[] pixelBytes = new byte[image.Width * image.Height * Unsafe.SizeOf<Rgba32>()];
         image.CopyPixelDataTo(pixelBytes);
         
-        var newPixelBytes = new byte[image.Width * image.Height * bpp / 8];
+        var newPixelBytes = new byte[image.Width * image.Height * (bpp / 8)];
 
 
         switch (bpp)
@@ -34,7 +34,7 @@ public static class Parsing
 
                 throw new NotImplementedException("16 bits per pixel is still not implemented!");
 
-            case 32: // RBG
+            case 24: // RBG
                 for (var i = 0; i < image.Width * image.Height; i++)
                 {
                     newPixelBytes[i] = pixelBytes[i * 4];
@@ -44,14 +44,14 @@ public static class Parsing
 
                 break;
 
-            case 64: // RGBA
+            case 32: // RGBA
                 newPixelBytes = pixelBytes;
                 break;
         }
     
         if (!Directory.Exists(Path.GetDirectoryName(output))) Directory.CreateDirectory(Path.GetDirectoryName(output)!);
 
-        var outFile = File.OpenWrite(output);
+        var outFile = File.Create(output);
 
         outFile.WriteByte((byte)bpp);
 
