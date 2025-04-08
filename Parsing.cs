@@ -54,14 +54,17 @@ public static class Parsing
 
         var outFile = File.Create(output);
 
-        outFile.WriteByte((byte)bpp);
-
+        // Header
         byte[] intBytes = new byte[4];
+        BinaryPrimitives.WriteInt32BigEndian(intBytes, bpp);
+        outFile.Write(intBytes);
         BinaryPrimitives.WriteInt32BigEndian(intBytes, image.Width);
         outFile.Write(intBytes);
         BinaryPrimitives.WriteInt32BigEndian(intBytes, image.Height);
         outFile.Write(intBytes);
 
+        // Data
+        outFile.Position = 16; // Skip header
         outFile.Write(newPixelBytes);
 
         outFile.Close();
