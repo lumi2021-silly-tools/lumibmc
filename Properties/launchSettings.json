@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "BitmapConverter": {
+      "commandName": "Project",
+      "commandLineArgs": "dog.jpg -o dog.bm"
+    }
+  }
+}

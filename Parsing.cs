@@ -49,7 +49,8 @@ public static class Parsing
                 break;
         }
     
-        if (!Directory.Exists(Path.GetDirectoryName(output))) Directory.CreateDirectory(Path.GetDirectoryName(output)!);
+        if (!string.IsNullOrEmpty(Path.GetDirectoryName(output)) && !Directory.Exists(Path.GetDirectoryName(output)))
+            Directory.CreateDirectory(Path.GetDirectoryName(output)!);
 
         var outFile = File.Create(output);
 
