@@ -27,8 +27,8 @@ jobs:
 
     - name: Compile releases
       run: |
-        dotnet publish -c Release -r win-x64 -o publish-win-x64 |
-        dotnet publish -c Release -r linux-x64 -o publish-lnx-x64
+        dotnet publish ./BitmapConverter.csproj -c Release -r win-x64 -o publish-win-x64 |
+        dotnet publish ./BitmapConverter.csproj -c Release -r linux-x64 -o publish-lnx-x64
 
     - name: Create or get release
       id: create_release
