@@ -1,0 +1,41 @@
+name: Build and Release the Application
+
+on:
+  push:
+    tags:
+      - 'v*'
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Code Checkout
+      uses: actions/checkout@v3
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '9.0.x'
+
+    - name: Restore deps
+      run: dotnet restore
+
+    - name: Compire as Release
+      run: dotnet publish -c Release -o publish
+
+    - name: Criar ou obter release
+      id: create_release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: ${{ github.ref_name }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Release dis shit
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          publish/**/*
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
