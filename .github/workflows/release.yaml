@@ -40,12 +40,11 @@ jobs:
       run: |
         VERSION=${GITHUB_REF_NAME}
         mv publish/BitmapConverter publish/lumibmc
-        tar -cvf MeuApp-$VERSION.tar -C publish .
+        tar -cvf lumibmc-linux.tar -C publish .
 
     - name: Release dis shit
       uses: softprops/action-gh-release@v1
       with:
-        files: |
-          publish/**/*
+        files: ./*.tar
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
