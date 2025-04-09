@@ -42,10 +42,10 @@ jobs:
       run: |
         VERSION=${GITHUB_REF_NAME}
         mv publish-win-x64/BitmapConverter.exe publish-win-x64/lumibmc.exe
-        mv publish-lin-x64/BitmapConverter publish-lin-x64/lumibmc
+        mv publish-lnx-x64/BitmapConverter publish-lnx-x64/lumibmc
 
         tar -czvf lumibmc-windows-x64.tar.gz -C publish-win-x64 .
-        tar -czvf lumibmc-linux-x64.tar.gz -C publish-lin-x64 .
+        tar -czvf lumibmc-linux-x64.tar.gz -C publish-lnx-x64 .
 
     - name: Release dis shit
       uses: softprops/action-gh-release@v1
