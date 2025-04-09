@@ -37,15 +37,21 @@ public static class Parsing
             case 24: // RBG
                 for (var i = 0; i < image.Width * image.Height; i++)
                 {
-                    newPixelBytes[i] = pixelBytes[i * 4];
+                    newPixelBytes[i + 0] = pixelBytes[i * 4 + 2];
                     newPixelBytes[i + 1] = pixelBytes[i * 4 + 1];
-                    newPixelBytes[i + 2] = pixelBytes[i * 4 + 2];
+                    newPixelBytes[i + 2] = pixelBytes[i * 4 + 0];
                 }
 
                 break;
 
             case 32: // RGBA
-                newPixelBytes = pixelBytes;
+                for (var i = 0; i < image.Width * image.Height; i++)
+                {
+                    newPixelBytes[i + 0] = pixelBytes[i * 4 + 3];
+                    newPixelBytes[i + 1] = pixelBytes[i * 4 + 2];
+                    newPixelBytes[i + 2] = pixelBytes[i * 4 + 1];
+                    newPixelBytes[i + 3] = pixelBytes[i * 4 + 0];
+                }
                 break;
         }
     
