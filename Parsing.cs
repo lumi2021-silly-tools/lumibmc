@@ -13,7 +13,7 @@ public static class Parsing
 
         using Image<Rgba32> image = Image.Load<Rgba32>(input);
 
-        byte[] pixelBytes = new byte[image.Width * image.Height * Unsafe.SizeOf<Rgba32>()];
+        Rgba32[] pixelBytes = new Rgba32[image.Width * image.Height];
         image.CopyPixelDataTo(pixelBytes);
         
         var newPixelBytes = new byte[image.Width * image.Height * (bpp / 8)];
@@ -25,7 +25,7 @@ public static class Parsing
 
                 for (var i = 0; i < image.Width * image.Height; i ++)
                 {
-                    newPixelBytes[i] = (byte)((pixelBytes[i * 4] + pixelBytes[i * 4 + 1] + pixelBytes[i * 4 + 2] + pixelBytes[i * 4 + 3]) / 4);
+                    newPixelBytes[i] = (byte)((pixelBytes[i].R + pixelBytes[i].G + pixelBytes[i].B + pixelBytes[i].A) / 4);
                 }
 
                 break;
@@ -37,9 +37,9 @@ public static class Parsing
             case 24: // RBG
                 for (var i = 0; i < image.Width * image.Height; i++)
                 {
-                    newPixelBytes[i + 0] = pixelBytes[i * 4 + 2];
-                    newPixelBytes[i + 1] = pixelBytes[i * 4 + 1];
-                    newPixelBytes[i + 2] = pixelBytes[i * 4 + 0];
+                    newPixelBytes[i + 0] = pixelBytes[i].R;
+                    newPixelBytes[i + 1] = pixelBytes[i].G;
+                    newPixelBytes[i + 2] = pixelBytes[i].B;
                 }
 
                 break;
@@ -47,10 +47,10 @@ public static class Parsing
             case 32: // RGBA
                 for (var i = 0; i < image.Width * image.Height; i++)
                 {
-                    newPixelBytes[i + 0] = pixelBytes[i * 4 + 3];
-                    newPixelBytes[i + 1] = pixelBytes[i * 4 + 2];
-                    newPixelBytes[i + 2] = pixelBytes[i * 4 + 1];
-                    newPixelBytes[i + 3] = pixelBytes[i * 4 + 0];
+                    newPixelBytes[i * 4 + 0] = pixelBytes[i].R;
+                    newPixelBytes[i * 4 + 1] = pixelBytes[i].G;
+                    newPixelBytes[i * 4 + 2] = pixelBytes[i].B;
+                    newPixelBytes[i * 4 + 3] = pixelBytes[i].A;
                 }
                 break;
         }
